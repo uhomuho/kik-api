@@ -62,8 +62,8 @@ const getTotal = async id => {
 
 const notify = ({ sandwiches, carrotPie, cherryPie }, name) => {
 	post(botLink, {
-		chat_id: 252920458,
-		// chat_id: 780392838,
+		// chat_id: 252920458,
+		chat_id: 780392838,
 		text: `На <b>${name}</b>:\n\n- <b>${sandwiches}</b> Сендвичей\n- <b>${carrotPie}</b> Морковных тортиков\n- <b>${cherryPie}</b> Вишнёвых пирогов`,
 		parse_mode: 'HTML' 
 	})
