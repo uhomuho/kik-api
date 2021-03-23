@@ -60,10 +60,10 @@ const getTotal = async id => {
 	}
 }
 
-const notify = ({ sandwiches, carrotPie, cherryPie }, name) => {
+const notify = ({ sandwiches, carrotPie, cherryPie }, name, chat_id) => {
 	post(botLink, {
 		// chat_id: 252920458,
-		chat_id: 780392838,
+		chat_id: chat_id ? chat_id : 780392838,
 		text: `На <b>${name}</b>:\n\n- <b>${sandwiches}</b> Сендвичей\n- <b>${carrotPie}</b> Морковных тортиков\n- <b>${cherryPie}</b> Вишнёвых пирогов`,
 		parse_mode: 'HTML' 
 	})
@@ -114,25 +114,27 @@ app.get('/', (req, res) => {
 })
 
 app.post('/get_order', (req, res) => {
+
+	let { chat_id } = req.body
 	// Аллея
 	getTotal(5)
 		.then(res => {
 			console.log('Аллея: ', res)
-			notify(res, 'Аллею')
+			notify(res, 'Аллею', chat_id)
 		})
 	
 	// Ньютон
 	getTotal(3)
 		.then(res => {
 			console.log('Ньютон: ', res)
-			notify(res, 'Ньютон')
+			notify(res, 'Ньютон', chat_id)
 		})
 
 	// МФЦ
 	getTotal(2)
 		.then(res => {
 			console.log('МФЦ: ', res)
-			notify(res, 'МФЦ')
+			notify(res, 'МФЦ', chat_id)
 		})
 	res.sendStatus(200)
 })
