@@ -17,31 +17,51 @@ const getStats = async (id, date) => {
 	let stats = await get(`https://joinposter.com/api/dash.getProductsSales?token=915706:4164813c0a5214ec7dd9511d6717668e&spot_id=${id}&date_from=${date.add(1, 'd').format('YYYYMMD')}&date_to=${date.add(1, 'd').format('YYYYMMD')}`)
 		.then(res => res.data.response)
 
-	let sandwiches = stats.filter(item => item.product_name == "Сэндвич"),
+	let sandwiches_chicken = stats.filter(item => item.product_name == "Сэндвич КУРИЦА ЦЕЗАРЬ"), 
+			sandwiches_chicken_ter = stats.filter(item => item.product_name == "Сэндвич КУРИЦА ТЕРИЯКИ"),
+			sandwiches_fish = stats.filter(item => item.product_name == "Сэндвич РЫБА"),
+			sandwiches_peperoni = stats.filter(item => item.product_name == "Сэндвич ПЕПЕРОНИ"),
+			sandwiches_egg = stats.filter(item => item.product_name == "Сэндвич ЯЙЦО И ВЕТЧИНА"),
+			sandwiches_tuna = stats.filter(item => item.product_name == "Сэндвич С ТУНЦОМ"),
 			carrotPie = stats.filter(item => item.product_name == "Морковный пирог"),
 			cherryPie = stats.filter(item => item.product_name == "Пирог пай(ягодный)")
 
-			sandwiches = getCount(sandwiches)
+			sandwiches_chicken = getCount(sandwiches_chicken)
+			sandwiches_chicken_ter = getCount(sandwiches_chicken_ter)
+			sandwiches_fish = getCount(sandwiches_fish)
+			sandwiches_peperoni = getCount(sandwiches_peperoni)
+			sandwiches_egg = getCount(sandwiches_egg)
+			sandwiches_tuna = getCount(sandwiches_tuna)
 			carrotPie = getCount(carrotPie)
 			cherryPie = getCount(cherryPie)
 
 	stats = await get(`https://joinposter.com/api/dash.getProductsSales?token=915706:4164813c0a5214ec7dd9511d6717668e&spot_id=${id}&date_from=${date.add(2, 'd').format('YYYYMMD')}&date_to=${date.add(2, 'd').format('YYYYMMD')}`)
 		.then(res => res.data.response)
 
-	sandwiches = sandwiches + getCount(stats.filter(item => item.product_name == "Сэндвич"))
-	carrotPie = carrotPie + getCount(stats.filter(item => item.product_name == "Морковный пирог"))
-	cherryPie = cherryPie + getCount(stats.filter(item => item.product_name == "Пирог пай(ягодный)"))
+	sandwiches_chicken += getCount(stats.filter(item => item.product_name == "Сэндвич КУРИЦА ЦЕЗАРЬ")) 
+	sandwiches_chicken_ter += getCount(stats.filter(item => item.product_name == "Сэндвич КУРИЦА ТЕРИЯКИ"))
+	sandwiches_fish += getCount(stats.filter(item => item.product_name == "Сэндвич РЫБА"))
+	sandwiches_peperoni += getCount(stats.filter(item => item.product_name == "Сэндвич ПЕПЕРОНИ"))
+	sandwiches_egg += getCount(stats.filter(item => item.product_name == "Сэндвич ЯЙЦО И ВЕТЧИНА"))
+	sandwiches_tuna += getCount(stats.filter(item => item.product_name == "Сэндвич С ТУНЦОМ"))
+	carrotPie += getCount(stats.filter(item => item.product_name == "Морковный пирог"))
+	cherryPie += getCount(stats.filter(item => item.product_name == "Пирог пай(ягодный)"))
 
 	if (moment().day() == 4) {
 		stats = await get(`https://joinposter.com/api/dash.getProductsSales?token=915706:4164813c0a5214ec7dd9511d6717668e&spot_id=${id}&date_from=${date.add(3, 'd').format('YYYYMMD')}&date_to=${date.add(3, 'd').format('YYYYMMD')}`)
 		.then(res => res.data.response)
 
-		sandwiches = sandwiches + getCount(stats.filter(item => item.product_name == "Сэндвич"))
+		sandwiches_chicken += getCount(stats.filter(item => item.product_name == "Сэндвич КУРИЦА ЦЕЗАРЬ")) 
+		sandwiches_chicken_ter += getCount(stats.filter(item => item.product_name == "Сэндвич КУРИЦА ТЕРИЯКИ"))
+		sandwiches_fish += getCount(stats.filter(item => item.product_name == "Сэндвич РЫБА"))
+		sandwiches_peperoni += getCount(stats.filter(item => item.product_name == "Сэндвич ПЕПЕРОНИ"))
+		sandwiches_egg += getCount(stats.filter(item => item.product_name == "Сэндвич ЯЙЦО И ВЕТЧИНА"))
+		sandwiches_tuna += getCount(stats.filter(item => item.product_name == "Сэндвич С ТУНЦОМ"))
 		carrotPie = carrotPie + getCount(stats.filter(item => item.product_name == "Морковный пирог"))
 		cherryPie = cherryPie + getCount(stats.filter(item => item.product_name == "Пирог пай(ягодный)"))
 	}
 	
-	return { sandwiches, carrotPie, cherryPie }
+	return { sandwiches_chicken, sandwiches_chicken_ter, sandwiches_fish, sandwiches_peperoni, sandwiches_egg, sandwiches_tuna, carrotPie, cherryPie }
 }
 
 const getTotal = async id => {
@@ -54,17 +74,22 @@ const getTotal = async id => {
 	let t = await getStats(id, dateThreeWeeksAgo)
 
 	return {
-		sandwiches: getOrder([f.sandwiches, s.sandwiches, t.sandwiches]),
+		sandwiches_chicken: getOrder([f.sandwiches_chicken, s.sandwiches_chicken, t.sandwiches_chicken]),
+		sandwiches_chicken_ter: getOrder([f.sandwiches_chicken_ter, s.sandwiches_chicken_ter, t.sandwiches_chicken_ter]),
+		sandwiches_fish: getOrder([f.sandwiches_fish, s.sandwiches_fish, t.sandwiches_fish]),
+		sandwiches_peperoni: getOrder([f.sandwiches_peperoni, s.sandwiches_peperoni, t.sandwiches_peperoni]),
+		sandwiches_egg: getOrder([f.sandwiches_egg, s.sandwiches_egg, t.sandwiches_egg]),
+		sandwiches_tuna: getOrder([f.sandwiches_tuna, s.sandwiches_tuna, t.sandwiches_tuna]),
 		carrotPie: getOrder([f.carrotPie, s.carrotPie, t.carrotPie]),
 		cherryPie: getOrder([f.cherryPie, s.cherryPie, t.cherryPie], true)
 	}
 }
 
-const notify = ({ sandwiches, carrotPie, cherryPie }, name, chat_id) => {
+const notify = ({ sandwiches_chicken, sandwiches_chicken_ter, sandwiches_fish, sandwiches_peperoni, sandwiches_egg, sandwiches_tuna, carrotPie, cherryPie }, name, chat_id) => {
 	post(botLink, {
 		// chat_id: 252920458,
 		chat_id: chat_id ? chat_id : 780392838,
-		text: `На <b>${name}</b>:\n\n- <b>${sandwiches}</b> Сендвичей\n- <b>${carrotPie}</b> Морковных тортиков\n- <b>${cherryPie}</b> Вишнёвых пирогов`,
+		text: `На <b>${name}</b>:\n\n- <b>${sandwiches_chicken}</b> Сендвичей <b>с курицей</b>\n- <b>${sandwiches_chicken_ter}</b> Сендвичей <b>с курицей терияки</b>\n- <b>${sandwiches_fish}</b> Сендвичей <b>с рыбой</b>\n- <b>${sandwiches_peperoni}</b> Сендвичей <b>с пеперони</b>\n- <b>${sandwiches_egg}</b> Сендвичей <b>с яйцом и ветчиной</b>\n- <b>${sandwiches_tuna}</b> Сендвичей <b>с тунцом</b>\n- <b>${carrotPie}</b> Морковных тортиков\n- <b>${cherryPie}</b> Вишнёвых пирогов`,
 		parse_mode: 'HTML' 
 	})
 		.catch(err => console.error(err))
