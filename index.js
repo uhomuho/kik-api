@@ -11,7 +11,7 @@ const express = require('express'),
 
 const getCount = (item) => item.length > 0 ? parseInt(item[0].count) : 0
 
-const getOrder = (items, isCherry) => !isCherry ? Math.ceil((items.reduce((a, b) => a + b) / items.length) + 2) : Math.ceil((items.reduce((a, b) => a + b) / items.length))
+const getOrder = (items, isCarrot) => isCarrot ? Math.ceil((items.reduce((a, b) => a + b) / items.length) + 2) : Math.ceil((items.reduce((a, b) => a + b) / items.length))
 
 const getStats = async (id, date) => {
 	let stats = await get(`https://joinposter.com/api/dash.getProductsSales?token=915706:4164813c0a5214ec7dd9511d6717668e&spot_id=${id}&date_from=${date.add(1, 'd').format('YYYYMMD')}&date_to=${date.add(1, 'd').format('YYYYMMD')}`)
@@ -80,8 +80,8 @@ const getTotal = async id => {
 		sandwiches_peperoni: getOrder([f.sandwiches_peperoni, s.sandwiches_peperoni, t.sandwiches_peperoni]),
 		sandwiches_egg: getOrder([f.sandwiches_egg, s.sandwiches_egg, t.sandwiches_egg]),
 		sandwiches_tuna: getOrder([f.sandwiches_tuna, s.sandwiches_tuna, t.sandwiches_tuna]),
-		carrotPie: getOrder([f.carrotPie, s.carrotPie, t.carrotPie]),
-		cherryPie: getOrder([f.cherryPie, s.cherryPie, t.cherryPie], true)
+		carrotPie: getOrder([f.carrotPie, s.carrotPie, t.carrotPie], true),
+		cherryPie: getOrder([f.cherryPie, s.cherryPie, t.cherryPie])
 	}
 }
 
