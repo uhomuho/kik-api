@@ -14,7 +14,7 @@ const getCount = (item) => item.length > 0 ? parseInt(item[0].count) : 0
 const getOrder = (items, isCarrot) => isCarrot ? Math.ceil((items.reduce((a, b) => a + b) / items.length) + 2) : Math.ceil((items.reduce((a, b) => a + b) / items.length))
 
 const getStats = async (id, date) => {
-	let stats = await get(`https://joinposter.com/api/dash.getProductsSales?token=915706:4164813c0a5214ec7dd9511d6717668e&spot_id=${id}&date_from=${date.add(1, 'd').format('YYYYMMD')}&date_to=${date.add(1, 'd').format('YYYYMMD')}`)
+	let stats = await get(`https://joinposter.com/api/dash.getProductsSales?token=915706:4164813c0a5214ec7dd9511d6717668e&spot_id=${id}&date_from=${date.add(1, 'd').format('YYYYMMDD')}&date_to=${date.add(1, 'd').format('YYYYMMDD')}`)
 		.then(res => res.data.response)
 
 	let sandwiches_chicken = stats.filter(item => item.product_name == "Сэндвич КУРИЦА ЦЕЗАРЬ"), 
@@ -35,7 +35,7 @@ const getStats = async (id, date) => {
 			carrotPie = getCount(carrotPie)
 			cherryPie = getCount(cherryPie)
 
-	stats = await get(`https://joinposter.com/api/dash.getProductsSales?token=915706:4164813c0a5214ec7dd9511d6717668e&spot_id=${id}&date_from=${date.add(2, 'd').format('YYYYMMD')}&date_to=${date.add(2, 'd').format('YYYYMMD')}`)
+	stats = await get(`https://joinposter.com/api/dash.getProductsSales?token=915706:4164813c0a5214ec7dd9511d6717668e&spot_id=${id}&date_from=${date.add(2, 'd').format('YYYYMMDD')}&date_to=${date.add(2, 'd').format('YYYYMMDD')}`)
 		.then(res => res.data.response)
 
 	sandwiches_chicken = sandwiches_chicken + getCount(stats.filter(item => item.product_name == "Сэндвич КУРИЦА ЦЕЗАРЬ")) 
@@ -47,8 +47,9 @@ const getStats = async (id, date) => {
 	carrotPie = carrotPie + getCount(stats.filter(item => item.product_name == "Морковный пирог"))
 	cherryPie = cherryPie + getCount(stats.filter(item => item.product_name == "Пирог пай(ягодный)"))
 
+
 	if (moment().day() == 4) {
-		stats = await get(`https://joinposter.com/api/dash.getProductsSales?token=915706:4164813c0a5214ec7dd9511d6717668e&spot_id=${id}&date_from=${date.add(3, 'd').format('YYYYMMD')}&date_to=${date.add(3, 'd').format('YYYYMMD')}`)
+		stats = await get(`https://joinposter.com/api/dash.getProductsSales?token=915706:4164813c0a5214ec7dd9511d6717668e&spot_id=${id}&date_from=${date.add(3, 'd').format('YYYYMMDD')}&date_to=${date.add(3, 'd').format('YYYYMMDD')}`)
 		.then(res => res.data.response)
 
 		sandwiches_chicken = sandwiches_chicken + getCount(stats.filter(item => item.product_name == "Сэндвич КУРИЦА ЦЕЗАРЬ")) 
@@ -99,21 +100,21 @@ let job = new CronJob('00 00 12 * * 0,2,4', function() {
 	// Аллея
 	getTotal(5)
 		.then(res => {
-			console.log('Аллея: ', res)
+			// console.log('Аллея: ', res)
 			notify(res, 'Аллею')
 		})
 	
 	// Ньютон
 	getTotal(3)
 		.then(res => {
-			console.log('Ньютон: ', res)
+			// console.log('Ньютон: ', res)
 			notify(res, 'Ньютон')
 		})
 
 	// МФЦ
 	getTotal(2)
 		.then(res => {
-			console.log('МФЦ: ', res)
+			// console.log('МФЦ: ', res)
 			notify(res, 'МФЦ')
 		})
 }, null, true, 'Asia/Yekaterinburg')
@@ -144,21 +145,21 @@ app.post('/get_order', (req, res) => {
 	// Аллея
 	getTotal(5)
 		.then(res => {
-			console.log('Аллея: ', res)
+			// console.log('Аллея: ', res)
 			notify(res, 'Аллею', chat_id)
 		})
 	
 	// Ньютон
 	getTotal(3)
 		.then(res => {
-			console.log('Ньютон: ', res)
+			// console.log('Ньютон: ', res)
 			notify(res, 'Ньютон', chat_id)
 		})
 
 	// МФЦ
 	getTotal(2)
 		.then(res => {
-			console.log('МФЦ: ', res)
+			// console.log('МФЦ: ', res)
 			notify(res, 'МФЦ', chat_id)
 		})
 	res.sendStatus(200)
